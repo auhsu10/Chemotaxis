@@ -1,5 +1,9 @@
 //declare bacteria variables here
 boolean activeMousetrack=false;
+boolean xLeft=false;
+boolean xRight=false;
+boolean yUp=false;
+boolean yDown=false;
 Bacteria[] colony;
 void setup()   
 {     
@@ -51,34 +55,46 @@ class Bacteria
   Bacteria(){
     myX=(int)(Math.random()*600);
     myY=(int)(Math.random()*600);
-    myColor=(int)(Math.random()*3);
+    myColor=color((int)(Math.random()*255),(int)(Math.random()*255),(int)(Math.random()*255));
   }
   void show(){
-    if(myColor==0){
-      fill(255,0,0);
-    }
-    else if(myColor==1){
-      fill(0,255,0);
-    }
-    else if(myColor==2){
-      fill(0,0,255);
-    }
-    ellipse(myX,myY,15,15);
+    fill(myColor);
+    ellipse(myX,myY,10,10);
   }
   void move(){
     myX=myX+(int)(Math.random()*15)-7;
     myY=myY+(int)(Math.random()*15)-7;
-    if(myX<=8)
-      myX=8;
-    if(myY<=8)
-      myY=8;
-    if(myX>=592)
-      myX=592;
-    if(myY>=592)
-      myY=592;
+    if(myX<=16){
+      myX=16;
+      if(myX<20)
+        xLeft=true;
+      fill(255);
+      quad(0,0,8,8,8,592,0,600);
+    }
+    if(myY<=16){
+      myY=16;
+      if(myY<20)
+        yUp=true;
+      fill(255);
+      quad(0,0,8,8,592,8,600,0);
+    }
+    if(myX>=584){
+      myX=584;
+      if(myX>580)
+        xRight=true;
+      fill(255);
+      quad(600,0,592,8,592,592,600,600);
+    }
+    if(myY>=584){
+      myY=584;
+      if(myY>580)
+        yDown=true;
+      fill(255);
+      quad(0,600,8,592,592,592,600,600);
+    }
     if(dist((float)myX,(float)myY,mouseX,mouseY)>0 && activeMousetrack==true){
       myX=myX+(mouseX-300)/50;
       myY=myY+(mouseY-300)/50;
     }
   }
-}    
+}
