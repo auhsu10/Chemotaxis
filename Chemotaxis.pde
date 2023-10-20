@@ -1,11 +1,8 @@
 //declare bacteria variables here
 boolean activeMousetrack=false;
-boolean xLeft=false;
-boolean xRight=false;
-boolean yUp=false;
-boolean yDown=false;
-int numLeft=500;
+double time=0;
 Bacteria[] colony;
+int numGone=0;
 void setup()   
 {     
   size(600,650);
@@ -17,6 +14,7 @@ void setup()
 void draw()   
 {    
   background(0);
+  time+=0.016;
   for(int i=0;i<colony.length-1;i++){
     colony[i].show();
     colony[i].move();
@@ -31,22 +29,16 @@ void draw()
   fill(0);
   textAlign(CENTER);
   textSize(16);
-  text("Number of dots left: "+numLeft,300,630);
+  text("Time: "+(int)time+" seconds",300,630);
+  System.out.println(numGone);
 }  
-//void mousePressed()
-//{
-//  cumulativeSum+=roundSum;
-//  redraw();
-//  roundSum=0;
-//  numRolls+=1;
-//}
 void keyPressed()
 {
   if(key=='r'||key=='R'){
     colony=new Bacteria[500];
     for(int i=0;i<colony.length-1;i++)
       colony[i]=new Bacteria();
-    numLeft=500;
+    time=0;
     redraw();
   }
   if((key=='n'||key=='N')&& activeMousetrack==true){
@@ -55,12 +47,6 @@ void keyPressed()
   if((key=='m'||key=='M')&& activeMousetrack==false){
     activeMousetrack=true;
   }
-  //if(keyCode==32){
-  //  cumulativeSum+=roundSum;
-  //  redraw();
-  //  roundSum=0;
-  //  numRolls+=1;
-  //}
 }
 class Bacteria    
 {     
@@ -83,29 +69,21 @@ class Bacteria
     }
     if(myX<=16){
       myX=16;
-      if(myX<20)
-        xLeft=true;
       fill(255);
       quad(0,0,8,8,8,592,0,600);
     }
     if(myY<=16){
       myY=16;
-      if(myY<20)
-        yUp=true;
       fill(255);
       quad(0,0,8,8,592,8,600,0);
     }
     if(myX>=584){
       myX=584;
-      if(myX>580)
-        xRight=true;
       fill(255);
       quad(600,0,592,8,592,592,600,600);
     }
     if(myY>=584 && myY!=650){
       myY=584;
-      if(myY>580)
-        yDown=true;
       fill(255);
       quad(0,600,8,592,592,592,600,600);
     }
@@ -121,13 +99,15 @@ class Bacteria
     }
   }
   void disappear(){
-    if(dist((float)myX,(float)myY,mouseX,mouseY)<=5){
-      myX=650;
+    if(dist((float)myX,(float)myY,mouseX,mouseY)<=8){
+      myX=300;
       myY=650;
       notBlack=false;
       myColor=color(0);
     }
-    if(notBlack==false)
-      numLeft=numLeft-1;
+    for(int i=0;i<colony.length-1;i++){
+      if(colony[i].notBlack==false && colony[i].myX==300 && colony[i].myY==650)
+        numGone=numGone+1;
+    }
   }
 }
