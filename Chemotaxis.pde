@@ -2,7 +2,6 @@
 boolean activeMousetrack=false;
 double time=0;
 Bacteria[] colony;
-int numGone=0;
 int sumBlackdots=0;
 double timeFinal=0;
 void setup()   
