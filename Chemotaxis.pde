@@ -7,7 +7,6 @@ int sumBlackdots=0;
 double timeFinal=0;
 void setup()   
 {
-  background(0);
   size(600,650);
   //initialize bacteria variables here
   colony=new Bacteria[501];
@@ -15,7 +14,8 @@ void setup()
     colony[i]=new Bacteria();
 }   
 void draw()
-{    
+{
+  background(0);
   sumBlackdots=0;
   time+=0.016;
   for(int i=0;i<colony.length-1;i++){
